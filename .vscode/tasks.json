@@ -49,6 +49,23 @@
             ],
             "group": "build",
             "detail": "Optimised build."
+        },
+        {
+            "type": "shell",
+            "label": "C: build active file (GTK / pkg-config)",
+            "command": "${workspaceFolder}/../library/.venv/bin/python.exe",
+            "args": [
+                "${workspaceFolder}/../library/scripts/build.py",
+                "${file}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "detail": "Builds via build.py, which pulls GTK's flags from pkg-config. Use this for gui_calculator.c."
         }
     ]
 }

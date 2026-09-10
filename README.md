@@ -34,13 +34,31 @@ Or **Ctrl+Shift+B** in VS Code. Output goes to `build\`, which is gitignored.
 
 ## Build — GTK version
 
-The GUI version needs GTK 3 and `pkg-config`, which the plain build script
-doesn't wire up. From an MSYS2 MinGW64 shell:
+Same command as above:
+
+```powershell
+python "..\library\scripts\build.py" gui_calculator.c --run
+```
+
+`build.py` sees `#include <gtk/gtk.h>` and pulls GTK's compiler and linker flags
+from `pkg-config` on its own — there are fourteen include directories and about
+thirty libraries, so this is not a list worth typing. In VS Code, pick
+**C: build active file (GTK / pkg-config)** from the build tasks; plain
+Ctrl+Shift+B runs the default task, which has no GTK flags and will fail on this
+file.
+
+### If it can't find `gtk/gtk.h`
+
+GTK's headers live in `include/gtk-3.0/`, which gcc doesn't search by default,
+so a build without `pkg-config` flags stops at line 1. Both pieces come from an
+MSYS2 MinGW64 shell:
 
 ```bash
-pacman -S mingw-w64-x86_64-gtk3 mingw-w64-x86_64-pkg-config
-gcc -Wall -Wextra gui_calculator.c -o build/gui_calculator.exe $(pkg-config --cflags --libs gtk+-3.0)
+pacman -S mingw-w64-x86_64-gtk3 mingw-w64-x86_64-pkgconf
 ```
+
+Note `pkgconf`, not `pkg-config` — MSYS2 renamed the package, and the old name
+no longer resolves.
 
 ## Licence
 
