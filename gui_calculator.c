@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 
@@ -20,6 +21,12 @@ typedef struct {
 } AppWidgets;
 
 static void on_convert_clicked(GtkButton *button, gpointer user_data) {
+    /* GTK chooses this signature, so we get a 'button' whether we want it
+     * or not -- and we don't, since there is only one button. Casting it to
+     * void tells the compiler the omission is deliberate, which stops the
+     * -Wunused-parameter warning without weakening it everywhere else. */
+    (void)button;
+
     AppWidgets *widgets = (AppWidgets *)user_data;
 
     const char *text = gtk_entry_get_text(GTK_ENTRY(widgets->entry));
@@ -72,6 +79,10 @@ static void on_convert_clicked(GtkButton *button, gpointer user_data) {
 
 /* GTK calls this once the application is ready to show its first window. */
 static void activate(GtkApplication *app, gpointer user_data) {
+    /* Same story: 'activate' hands us a user_data pointer, and we passed
+     * NULL when connecting the signal, so there is nothing to read. */
+    (void)user_data;
+
     GtkWidget *window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "Microsecond Calculator");
     gtk_window_set_default_size(GTK_WINDOW(window), 420, 180);
@@ -112,7 +123,7 @@ static void activate(GtkApplication *app, gpointer user_data) {
 
 int main(int argc, char **argv) {
     GtkApplication *app = gtk_application_new("com.ricky.microsecondcalculator",
-                                               G_APPLICATION_FLAGS_NONE);
+                                               G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
     int status = g_application_run(G_APPLICATION(app), argc, argv);
     g_object_unref(app);
