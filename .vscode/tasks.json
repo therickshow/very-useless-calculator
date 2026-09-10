@@ -2,18 +2,12 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "type": "cppbuild",
+            "type": "shell",
             "label": "C: build active file (debug)",
-            "command": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+            "command": "${fileDirname}/../library/.venv/bin/python.exe",
             "args": [
-                "-fdiagnostics-color=always",
-                "-Wall",
-                "-Wextra",
-                "-std=c17",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}\\build\\${fileBasenameNoExtension}.exe"
+                "${fileDirname}/../library/scripts/build.py",
+                "${file}"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -25,38 +19,16 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "Warnings on, debug symbols. Output goes to build/."
-        },
-        {
-            "type": "cppbuild",
-            "label": "C: build active file (release)",
-            "command": "C:\\msys64\\mingw64\\bin\\gcc.exe",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-Wall",
-                "-Wextra",
-                "-std=c17",
-                "-O2",
-                "${file}",
-                "-o",
-                "${fileDirname}\\build\\${fileBasenameNoExtension}.exe"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": "build",
-            "detail": "Optimised build."
+            "detail": "Warnings on, debug symbols. GTK flags added automatically when needed."
         },
         {
             "type": "shell",
-            "label": "C: build active file (GTK / pkg-config)",
-            "command": "${workspaceFolder}/../library/.venv/bin/python.exe",
+            "label": "C: build active file (release)",
+            "command": "${fileDirname}/../library/.venv/bin/python.exe",
             "args": [
-                "${workspaceFolder}/../library/scripts/build.py",
-                "${file}"
+                "${fileDirname}/../library/scripts/build.py",
+                "${file}",
+                "--release"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -65,7 +37,25 @@
                 "$gcc"
             ],
             "group": "build",
-            "detail": "Builds via build.py, which pulls GTK's flags from pkg-config. Use this for gui_calculator.c."
+            "detail": "Optimised. GUI programs drop their console window."
+        },
+        {
+            "type": "shell",
+            "label": "C: build and run",
+            "command": "${fileDirname}/../library/.venv/bin/python.exe",
+            "args": [
+                "${fileDirname}/../library/scripts/build.py",
+                "${file}",
+                "--run"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build",
+            "detail": "Build, then run the result."
         }
     ]
 }
