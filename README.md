@@ -45,10 +45,12 @@ python "..\library\scripts\build.py" gui_calculator.c --run
 
 `build.py` sees `#include <gtk/gtk.h>` and pulls GTK's compiler and linker flags
 from `pkg-config` on its own — there are fourteen include directories and about
-thirty libraries, so this is not a list worth typing. In VS Code, pick
-**C: build active file (GTK / pkg-config)** from the build tasks; plain
-Ctrl+Shift+B runs the default task, which has no GTK flags and will fail on this
-file.
+thirty libraries, so this is not a list worth typing. **Ctrl+Shift+B** and
+**F5** both work on this file too: every build task routes through `build.py`,
+so the GTK flags get added wherever they are needed and nowhere else.
+
+The window has an entry box, a Convert button, and a label for the result.
+Pressing Enter in the entry box converts as well.
 
 ### If it can't find `gtk/gtk.h`
 
