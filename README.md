@@ -6,6 +6,9 @@ months, weeks, days, hours, minutes and seconds.
 It is useless in the sense that nobody has ever needed this. It is not useless
 in the sense that it works.
 
+This is my first project im ever publishing, I quite a new coder and im figuring out how these repositories work, 
+Hopefully somebody finds this cool and might keep working on it to actually develop the interface
+
 ```
 Enter a time in microseconds: 99999999999
 0 months, 0 weeks, 1 days, 3 hours, 46 minutes, 39 seconds
